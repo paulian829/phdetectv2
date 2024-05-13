@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BulletList extends StatelessWidget {
   final List<String> cropSuggestions;
@@ -45,6 +46,7 @@ class ProcessingScreen extends StatefulWidget {
 
 class _ProcessingScreenState extends State<ProcessingScreen> {
   String _pHLevel = '';
+  String _pHLevelPredictedPercentage = '';
   String _pHLevelText = '';
   List<String> _cropSuggestions = [];
 
@@ -72,11 +74,22 @@ Future<void> _sendImageToAPI() async {
     Map<String, dynamic> decodedData = json.decode(responseData);
     String pHLevel = decodedData['predicted_class_label'].toString();
     String pHLevelText = decodedData['soil_suggestion_text'].toString();
+    String pHLevelPredictedPercentage = decodedData['predicted_percentage'].toString() + '%';
     // Extract the crop suggestions from the API response
     List<dynamic> cropSuggestionsData = decodedData['crops_suggestions'];
     List<String> cropSuggestions = cropSuggestionsData.cast<String>();
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('imagePath', widget.imagePath);
+    await prefs.setString('pHLevel', pHLevel);
+    await prefs.setString('pHLevelText', pHLevelText);
+    await prefs.setStringList('cropSuggestions', cropSuggestions);
+
+
+
     setState(() {
       _pHLevel = pHLevel;
+      _pHLevelPredictedPercentage = pHLevelPredictedPercentage;
       _pHLevelText = pHLevelText;
       _cropSuggestions = cropSuggestions;
     });
@@ -160,6 +173,16 @@ return Scaffold(
                         // SizedBox(height: 2),
                         Text(
                           _pHLevel,
+                          style: TextStyle(
+                            color: Color(0xFF006D18),
+                            fontSize: 35,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w800,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                                                Text(
+                          _pHLevelPredictedPercentage,
                           style: TextStyle(
                             color: Color(0xFF006D18),
                             fontSize: 35,

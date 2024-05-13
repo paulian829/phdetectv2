@@ -26,8 +26,8 @@ android {
     namespace "com.example.phdetect"
     // compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
-    compileSdkVersion 34
-    buildToolsVersion "34.0.0"
+    compileSdkVersion 31
+    buildToolsVersion "31.0.0"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -51,8 +51,8 @@ android {
         // targetSdkVersion flutter.targetSdkVersion
         // versionCode flutterVersionCode.toInteger()
         // versionName flutterVersionName
-        minSdkVersion 34
-        targetSdkVersion 34
+        minSdkVersion 27
+        targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

@@ -20,6 +20,7 @@ class _CameraScreenState extends State<CameraScreen> {
   int _currentIndex = 0;
   bool _isFlashOn = false;
   bool _showSnapTipsOverlay = false;
+  bool _isCaptureInProgress = false;
 
   @override
   void initState() {

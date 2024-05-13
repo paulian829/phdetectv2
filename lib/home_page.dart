@@ -124,7 +124,7 @@ class Home extends StatelessWidget {
                                   width: 227,
                                   height: 28,
                                   child: Text(
-                                    'Good morning, Ka-soil',
+                                    'Good Day, Ka-soil',
                                     style: TextStyle(
                                       color: Color(0xFF006D18),
                                       fontSize: 27,
@@ -144,7 +144,7 @@ class Home extends StatelessWidget {
                 ),
                 SizedBox(height: 5),
                 Container(
-                  height: 245,
+                  height: 295,
                   child: Center(
                     child: Container(
                       width: 350,
@@ -208,7 +208,7 @@ class Home extends StatelessWidget {
                 ),
                 SizedBox(height: 5),
                 Container(
-                  height: 250,
+                  height: 290,
                   child: Center(
                     child: Container(
                       width: 350,
@@ -272,7 +272,7 @@ class Home extends StatelessWidget {
                 ),
                 SizedBox(height: 5),
                 Container(
-                  height: 250, //height of the container for effects
+                  height: 340, //height of the container for effects
                   child: Center(
                     child: Container(
                       width: 350,
@@ -293,7 +293,7 @@ class Home extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            height: 200,
+                            height: 300,
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.start,
