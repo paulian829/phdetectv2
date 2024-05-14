@@ -85,12 +85,18 @@ void _onPhotosTapped() async {
       if (result != null) {
         String? filePath = result.files.single.path;
         print('File picked: $filePath');
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProcessingScreen(filePath!),
-          ),
-        );
+        if (filePath != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProcessingScreen(filePath),
+            ),
+          );
+        } else {
+          print('File path is null');
+        }
+      } else {
+        print('No file selected');
       }
     } else {
       print('Permission denied');
