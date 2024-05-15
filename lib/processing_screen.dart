@@ -12,11 +12,8 @@ class BulletList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // ... (existing code)
       child: Column(
-        // ... (existing code)
         children: [
-          // ... (existing code)
           ListView.builder(
             shrinkWrap: true,
             itemCount: cropSuggestions.length,
@@ -43,6 +40,37 @@ class ProcessingScreen extends StatefulWidget {
   @override
   _ProcessingScreenState createState() => _ProcessingScreenState();
 }
+class Record {
+  final String imagePath;
+  final String pHLevel;
+  final String pHLevelText;
+  final List<String> cropSuggestions;
+
+  Record({
+    required this.imagePath,
+    required this.pHLevel,
+    required this.pHLevelText,
+    required this.cropSuggestions,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'imagePath': imagePath,
+      'pHLevel': pHLevel,
+      'pHLevelText': pHLevelText,
+      'cropSuggestions': cropSuggestions,
+    };
+  }
+
+  factory Record.fromJson(Map<String, dynamic> json) {
+    return Record(
+      imagePath: json['imagePath'],
+      pHLevel: json['pHLevel'],
+      pHLevelText: json['pHLevelText'],
+      cropSuggestions: List<String>.from(json['cropSuggestions']),
+    );
+  }
+}
 
 class _ProcessingScreenState extends State<ProcessingScreen> {
   String _pHLevel = '';
@@ -55,6 +83,8 @@ class _ProcessingScreenState extends State<ProcessingScreen> {
     super.initState();
     _sendImageToAPI();
   }
+
+
 
 Future<void> _sendImageToAPI() async {
   // Read the image file as bytes
@@ -80,12 +110,17 @@ Future<void> _sendImageToAPI() async {
     List<String> cropSuggestions = cropSuggestionsData.cast<String>();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('imagePath', widget.imagePath);
-    await prefs.setString('pHLevel', pHLevel);
-    await prefs.setString('pHLevelText', pHLevelText);
-    await prefs.setStringList('cropSuggestions', cropSuggestions);
+    List<String> recordsJson = prefs.getStringList('records') ?? [];
 
+    Record newRecord = Record(
+      imagePath: widget.imagePath,
+      pHLevel: pHLevel,
+      pHLevelText: pHLevelText,
+      cropSuggestions: cropSuggestions,
+    );
 
+    recordsJson.add(json.encode(newRecord.toJson()));
+    await prefs.setStringList('records', recordsJson);
 
     setState(() {
       _pHLevel = pHLevel;
@@ -181,16 +216,16 @@ return Scaffold(
                           ),
                           textAlign: TextAlign.center,
                         ),
-                                                Text(
-                          _pHLevelPredictedPercentage,
-                          style: TextStyle(
-                            color: Color(0xFF006D18),
-                            fontSize: 35,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w800,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                        //                         Text(
+                        //   _pHLevelPredictedPercentage,
+                        //   style: TextStyle(
+                        //     color: Color(0xFF006D18),
+                        //     fontSize: 35,
+                        //     fontFamily: 'Poppins',
+                        //     fontWeight: FontWeight.w800,
+                        //   ),
+                        //   textAlign: TextAlign.center,
+                        // ),
                       ]
                     )
                   ),
@@ -212,9 +247,11 @@ return Scaffold(
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      // crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: Text(
                           'Description',
                           style: TextStyle(
                             color: Colors.white,
@@ -224,8 +261,11 @@ return Scaffold(
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 8),
-                        Text(
+                      ),
+                      SizedBox(height: 8),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Text(
                           _pHLevelText,
                           style: TextStyle(
                             color: Colors.white,
@@ -235,7 +275,8 @@ return Scaffold(
                           ),
                           textAlign: TextAlign.justify,
                         ),
-                      ]
+                      ),
+                    ]
                     )
                   ),
                   SizedBox(height: 8),

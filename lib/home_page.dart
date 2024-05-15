@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phdetect/camera_screen.dart';
+import 'package:phdetect/history_screen.dart';
 import 'package:phdetect/main.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -69,6 +70,12 @@ class HomePage extends StatelessWidget {
                   )
                 );
               } else if (index == 2) {
+                                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HistoryScreen()
+                  )
+                );
                 
               }
             }
