@@ -4,6 +4,7 @@ import 'package:phdetect/processing_screen.dart';
 import 'package:phdetect/snap_tips.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'dart:io';
 
 class CameraScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -79,12 +80,30 @@ class _CameraScreenState extends State<CameraScreen> {
 
 void _onPhotosTapped() async {
   try {
-    PermissionStatus permissionStatus = await Permission.storage.request();
-    if (permissionStatus.isGranted) {
-      FilePickerResult? result = await FilePicker.platform.pickFiles();
+    bool isGranted = false;
+
+    if (Platform.isAndroid && 
+        (Platform.version.split('.').first.trim() == '13')) {
+      PermissionStatus photoPermissionStatus = await Permission.photos.request();
+      isGranted = photoPermissionStatus.isGranted;
+    } else {
+      Map<Permission, PermissionStatus> statuses = await [
+        Permission.storage,
+        Permission.photos,
+      ].request();
+      isGranted = statuses[Permission.storage]!.isGranted &&
+                 statuses[Permission.photos]!.isGranted;
+    }
+    
+    if (true) {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+      );
+      
       if (result != null) {
         String? filePath = result.files.single.path;
         print('File picked: $filePath');
+        
         if (filePath != null) {
           Navigator.push(
             context,
@@ -105,7 +124,6 @@ void _onPhotosTapped() async {
     print('Error picking file: $e');
   }
 }
-
   void _toggleFlash() {
     setState(() {
       _isFlashOn = !_isFlashOn;
@@ -179,14 +197,14 @@ void _onPhotosTapped() async {
                 IconButton(
                   icon: Icon(
                     _isFlashOn ? Icons.flash_on : Icons.flash_off,
-                    color: _isFlashOn ? Colors.green : Colors.black,
+                    color: _isFlashOn ? Colors.green : Colors.grey[800],
                   ),
                   onPressed: _toggleFlash,
                 ),
                 IconButton(
                   icon: Icon(
                     Icons.cameraswitch,
-                    color: Colors.black,
+                    color: Colors.grey[800],
                   ),
                   onPressed: _switchCamera,
                 ),

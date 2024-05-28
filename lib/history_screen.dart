@@ -13,20 +13,17 @@ class BulletList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // ... (existing code)
       child: Column(
-        // ... (existing code)
         children: [
-          // ... (existing code)
           ListView.builder(
             shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
             itemCount: cropSuggestions.length,
             itemBuilder: (context, index) => ListTile(
               contentPadding: EdgeInsets.all(0),
               leading: Icon(Icons.fiber_manual_record, color: Colors.black, size: 12),
               title: Text(
                 cropSuggestions[index],
-                // ... (existing code)
               ),
             ),
           ),
@@ -122,7 +119,7 @@ Future<void> _loadSavedData() async {
                       ),
                       SizedBox(height: 8),
                       Text(
-                        'Crop Suggestions:',
+                        'Crop Recommendations:',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,

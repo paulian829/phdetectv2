@@ -16,6 +16,7 @@ class BulletList extends StatelessWidget {
         children: [
           ListView.builder(
             shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
             itemCount: cropSuggestions.length,
             itemBuilder: (context, index) => ListTile(
               contentPadding: EdgeInsets.all(0),
@@ -216,16 +217,26 @@ return Scaffold(
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        //                         Text(
-                        //   _pHLevelPredictedPercentage,
-                        //   style: TextStyle(
-                        //     color: Color(0xFF006D18),
-                        //     fontSize: 35,
-                        //     fontFamily: 'Poppins',
-                        //     fontWeight: FontWeight.w800,
-                        //   ),
-                        //   textAlign: TextAlign.center,
-                        // ),
+                        Text(
+                          'Accuracy',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                                                Text(
+                          _pHLevelPredictedPercentage,
+                          style: TextStyle(
+                            color: Color(0xFF006D18),
+                            fontSize: 35,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w800,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ]
                     )
                   ),
@@ -255,7 +266,7 @@ return Scaffold(
                           'Description',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 23,
+                            fontSize: 25,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w800,
                           ),
@@ -269,7 +280,7 @@ return Scaffold(
                           _pHLevelText,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 18,
+                            fontSize: 22,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w400,
                           ),
@@ -280,6 +291,25 @@ return Scaffold(
                     )
                   ),
                   SizedBox(height: 8),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Text(
+                          'Crop Recommendations',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 25,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ],
+                  ),
                   BulletList(cropSuggestions: _cropSuggestions),
                 ],
               ),
