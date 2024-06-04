@@ -93,7 +93,7 @@ Future<void> _sendImageToAPI() async {
   List<int> imageBytes = await imageFile.readAsBytes();
 
   // Create the request payload as form data
-  var request = http.MultipartRequest('POST', Uri.parse('https://app.libanglang777.com/upload-image'));
+  var request = http.MultipartRequest('POST', Uri.parse('https://libanglang777.com/upload-image'));
   request.files.add(http.MultipartFile.fromBytes('image', imageBytes, filename: 'image.jpg'));
 
   // Send the POST request to the API endpoint
